@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<script language="javascript" type="text/javascript">
+
+    var wsUri = "wss://echo.websocket.org/";
+    var output;
+
+    function init() {
+        output = document.getElementById("temp");
+        testWebSocket();
+        // for (var c = 0; c < 3; c++) {
+        setTimeout(function () { testWebSocket(); }, 3000);
+        setTimeout(function () { testWebSocket(); }, 6000);
+    }
+
+    function testWebSocket() {
+        websocket = new WebSocket(wsUri);
+
+        websocket.onopen = function (evt) {
+            writeToScreen("데이터를 보냄");
+            websocket.send("hello" + cnt);
+        };
+        websocket.onmessage = function (evt) { onMessage(evt) };
+    }
+
+    function onMessage(evt) {
+        writeToScreen('<span style="color: blue;">' + cnt + ' : ' + evt.data + '</span>');
+        cnt++;
+        websocket.close();
+    }
+    function writeToScreen(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        output.appendChild(pre);
+        var newpre = document.createElement("a");
+        // newpre.innerHTML = "test!";
+        // var test = document.getElementById("output");
+        // output.replaceChild(newpre, test);
+    }
+    var cnt = 1;
+    window.addEventListener("load", init, false);
+</script>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+
+    <style>
+        p {
+            font-family: "Nanum Gothic", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            position: relative;
+            text-align: center;
+        }
+
+        body:after {
+            background-image: url('스마트팜.jpg');
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5 !important;
+            filter: alpha(opacity=50);
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            content: "";
+            z-index: -1;
+        }
+
+        h1 {
+            margin: auto;
+        }
+
+        h3 {
+            margin: 5px;
+        }
+        h4 {
+            margin: 1px;
+        }
+        h5 {
+            margin: 1px;
+        }
+
+        li {
+            float: left;
+            border-right: solid 1px white;
+        }
+
+        li:last-child {
+            border-right: none;
+        }
+
+        table.static {
+            position: static;
+            width: 100%;
+        }
+
+        div.static {
+            margin: 0 auto;
+            position: -webkit-sticky;
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1> </h1><br>
+    <h1>DimiFarm</h1>
+    <p>
+        <h3>
+            <교내 스마트팜 실시간 모니터링 시스템>
+        </h3>
+    </p>
+    <br>
+    <iframe id="video" src="http://192.168.43.83:8090/?action=stream"
+        style="width:640px;height:480px;width:640px;height:360px;border: 2px solid rgba(67, 92, 28, 0.473);transform: rotateY(180deg);-webkit-transform:rotateY(180deg);-moz-transform:rotateY(180deg);"
+        border-color="colar" ; scrolling="no" align="center"></iframe>
+    <p>
+        <h3>스마트팜 실시간 영상</h3>
+    </p>
+    <p>
+        <h2>WebSocket으로 받은 센서값</h2>
+    </p>
+    <table style="width:100%; text-align:center;" class="static">
+        <tr>
+            <th>온도(ºC)</th>
+            <th>습도(%)</th>
+            <th>광도(lx)</th>
+        </tr>
+        <tr>
+            <td>
+                <div id="temp" class="static"><br></div>
+            </td>
+            <td>
+                <div id="humi" class="static"></div>
+            </td>
+            <td>
+                <div id="light" class="static"></div>
+            </td>
+        </tr>
+    </table>
+    <p><h4><span style="color: rgb(73, 73, 138);">Developed by Jimin Lee</span></h4><br><h5><span style="color: rgb(73, 73, 138);">legatalee@gmail.com</span></h5></span></p>
+</body>
