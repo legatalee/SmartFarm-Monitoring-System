@@ -78,6 +78,9 @@
 
         iframe {
             z-index: 10;
+            zoom: 1.08;
+            -moz-transform: scale(1.08);
+            -webkit-transform: scale(1.08);
         }
 
         p {
@@ -89,7 +92,7 @@
         }
 
         h3 {
-            margin: 1px;
+            margin: 2px;
         }
 
         h4 {
@@ -134,11 +137,11 @@
             <교내 스마트팜 실시간 모니터링 시스템>
         </h3>
     </p>
-    <br>
 
     <!-- <iframe id="video" src="http://dimigo.hs.kr" -->
-    <iframe id="video" src="http://192.168.43.83:8090/?action=stream"
-        style="width:640px;height:480px;width:640px;height:360px;border: 2px solid rgba(67, 92, 28, 0.473);transform: rotateY(180deg);-webkit-transform:rotateY(180deg);-moz-transform:rotateY(180deg);"
+    <!-- <iframe id="video" src="http://192.168.43.83:8090/?action=stream" -->
+    <iframe id="video" src="http://192.168.43.83:8090/javascript_simple.html"
+        style="width:608px;height:380px;border: 0px;transform: rotateY(180deg);-webkit-transform:rotateY(180deg);-moz-transform:rotateY(180deg);"
         border-color="colar" scrolling="no" align="center"></iframe>
     <p>
         <h3>스마트팜 실시간 영상</h3>
