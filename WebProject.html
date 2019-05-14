@@ -1,50 +1,46 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
-<title>WebSocket Test</title>
+<title>DimiFarm</title>
 
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script language="javascript" type="text/javascript">
 
-    var wsUri = "wss://echo.websocket.org/";
+    var wsUri = "ws://192.168.137.228";
     var output;
 
     function init() {
-        output = document.getElementById("temp");
-        setInterval(function () { $("#temp").empty(); testWebSocket(); }, 2500);
+        temp = document.getElementById("temp");
+        humi = document.getElementById("humi");
+        light = document.getElementById("light");
+
+        setInterval(function () { testWebSocket(); }, 1000);
     }
 
     function testWebSocket() {
         websocket = new WebSocket(wsUri);
 
         websocket.onopen = function (evt) {
-            writeToScreen("데이터를 보냄");
-            websocket.send("hello" + cnt);
+            websocket.send("data");
         };
         websocket.onmessage = function (evt) { onMessage(evt) };
     }
 
     function onMessage(evt) {
-        writeToScreen('<span style="color: blue;">' + cnt + ' : ' + evt.data + '</span>');
-        cnt++;
+        var words = evt.data.split(',');
+
+        temp.innerHTML = words[0] + '<span style="font-weight:130%;font-size:70%;color:black"> ºC</span>';
+        humi.innerHTML = words[1] + '<span style="font-weight:130%;font-size:70%;color:black"> %</span>';
+        light.innerHTML = words[2] + '<span style="font-weight:130%;font-size:70%;color:black"> lx</span>';
+
         websocket.close();
     }
-    function writeToScreen(message) {
-        var pre = document.createElement("p");
-        pre.style.wordWrap = "break-word";
-        pre.innerHTML = message;
-        output.appendChild(pre);
-        var newpre = document.createElement("a");
-        // newpre.innerHTML = "test!";
-        // var test = document.getElementById("output");
-        // output.replaceChild(newpre, test);
-    }
-    var cnt = 1;
+
     window.addEventListener("load", init, false);
 </script>
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet"> -->
 
     <style>
         p {
@@ -104,16 +100,30 @@
         }
 
         li {
-            float: left;
+            /* float: left; */
             border-right: solid 1px white;
         }
 
         li:last-child {
-            border-right: none;
+            /* border-right: none; */
         }
 
         table.static {
+            color:black;
+            /* color:cornsilk; */
+            /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
+            font-size: 380%;
+            font-weight: bold;
+
             height: 100px;
+            table-layout: fixed;
+            margin: 0;
+
+            position: static;
+            width: 100%;
+        }
+
+        table.static2 {
             table-layout: fixed;
             margin: 0;
 
@@ -138,8 +148,6 @@
         </h3>
     </p>
 
-    <!-- <iframe id="video" src="http://dimigo.hs.kr" -->
-    <!-- <iframe id="video" src="http://192.168.137.109:8090/?action=stream" -->
     <iframe id="video" src="http://192.168.137.109:8090/javascript_simple.html"
         style="width:608px;height:380px;border: 0px;transform: rotateY(180deg);-webkit-transform:rotateY(180deg);-moz-transform:rotateY(180deg);"
         border-color="colar" scrolling="no" align="center"></iframe>
@@ -150,7 +158,7 @@
     <p>
         <h2>WebSocket으로 받은 실시간 센서값</h2>
     </p>
-    <table style="width:100%; text-align:center;">
+    <table style="width:100%; text-align:center;" class="static2">
         <tr>
             <th>온도(ºC)</th>
             <th>습도(%)</th>
